@@ -100,7 +100,7 @@ export const BottomNav: React.FC<BottomNavProps> = ({ activeTab, setActiveTab })
       )}
 
       {/* Fixed Bottom Nav Bar matching White Theme */}
-      <div className="fixed bottom-0 left-0 right-0 z-40 bg-white/95 backdrop-blur-md border-t border-slate-200 text-slate-500 max-w-md mx-auto px-4 py-2 shadow-lg">
+      <div className="fixed bottom-3 left-4 right-4 sm:left-1/2 sm:-translate-x-1/2 z-40 bg-white/95 backdrop-blur-md border border-slate-200 text-slate-500 w-auto sm:w-[500px] max-w-full px-6 py-2 shadow-xl rounded-full">
         <div className="flex items-center justify-between relative">
           
           {/* 1. Inicio */}

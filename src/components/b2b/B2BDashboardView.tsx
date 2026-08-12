@@ -91,7 +91,7 @@ export const B2BDashboardView: React.FC = () => {
 
       {/* TAB 1: INVENTORY & 3D MODELS */}
       {activeTab === "inventory" && (
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
           {products.map((p) => (
             <div key={p.id} className="p-3.5 rounded-2xl bg-white border border-slate-200 flex gap-3 items-center shadow-sm">
               <img src={p.image} alt={p.title} className="w-16 h-16 rounded-xl object-cover border border-slate-200" />

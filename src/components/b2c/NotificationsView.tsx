@@ -30,7 +30,7 @@ export const NotificationsView: React.FC = () => {
   ];
 
   return (
-    <div className="space-y-4 pb-20 animate-in fade-in duration-200">
+    <div className="space-y-4 pb-20 animate-in fade-in duration-200 max-w-4xl mx-auto">
       <div className="flex items-center justify-between">
         <div>
           <h2 className="text-xl font-bold text-slate-900 flex items-center gap-2">

@@ -18,7 +18,7 @@ export const DriverAppView: React.FC = () => {
   };
 
   return (
-    <div className="space-y-4 pb-20 animate-in fade-in duration-200">
+    <div className="space-y-4 pb-20 animate-in fade-in duration-200 max-w-4xl mx-auto">
       
       {/* Driver Status Banner */}
       <div className="p-5 rounded-3xl bg-gradient-to-br from-amber-600 via-orange-600 to-slate-900 border border-amber-400 text-white shadow-xl flex items-center justify-between">

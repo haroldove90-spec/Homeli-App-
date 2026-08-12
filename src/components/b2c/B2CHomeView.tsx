@@ -142,7 +142,7 @@ export const B2CHomeView: React.FC<B2CHomeViewProps> = ({ setActiveTab }) => {
           <span className="text-[11px] text-slate-500 font-medium">Super App Homeli</span>
         </div>
 
-        <div className="grid grid-cols-2 gap-3">
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4">
           
           {/* Card 1: Admin */}
           <div

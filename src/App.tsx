@@ -39,65 +39,61 @@ function AppContent() {
   const [isCartOpen, setIsCartOpen] = useState(false);
 
   return (
-    <div className="min-h-screen bg-slate-100 text-slate-900 font-sans selection:bg-violet-500 selection:text-white pb-12">
-      <div className="max-w-md mx-auto min-h-screen bg-white shadow-2xl relative border-x border-slate-200 flex flex-col">
-        
-        {/* Header Bar */}
-        <Header activeTab={activeTab} setActiveTab={setActiveTab} />
+    <div className="min-h-screen bg-slate-50 text-slate-900 font-sans selection:bg-violet-500 selection:text-white flex flex-col relative">
+      {/* Header Bar */}
+      <Header activeTab={activeTab} setActiveTab={setActiveTab} />
 
-        {/* Dynamic Body Content */}
-        <main className="flex-1 px-4 py-4 overflow-y-auto">
-          {activeTab === "inicio" && <B2CHomeView setActiveTab={setActiveTab} />}
-          {activeTab === "servicios" && <ServiceMarketplaceView />}
-          {activeTab === "ventas" && <ProductMarketplaceView onOpenCart={() => setIsCartOpen(true)} />}
-          {activeTab === "mensajeria" && <SocialCommunityView />}
-          {activeTab === "actividad" && <ActivityView />}
-          {activeTab === "notificaciones" && <NotificationsView />}
-          {activeTab === "perfil" && (
-            <div className="space-y-6">
-              <UserProfileView setActiveTab={setActiveTab} />
-              <WalletView />
-            </div>
-          )}
-
-          {activeTab === "negocios" && <B2BDashboardView />}
-          {activeTab === "landing" && <HomeliAdsView />}
-          {activeTab === "delivery" && <DriverAppView />}
-          {activeTab === "admin" && <AdminDashboardView />}
-        </main>
-
-        {/* Bottom Navigation */}
-        <BottomNav activeTab={activeTab} setActiveTab={setActiveTab} />
-
-        {/* Global Overlays & Modals */}
-        <OnboardingFlowModal />
-
-        {active3DProduct && (
-          <WebARViewer product={active3DProduct} onClose={() => setActive3DProduct(null)} />
+      {/* Dynamic Body Content */}
+      <main className="flex-1 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 pb-28">
+        {activeTab === "inicio" && <B2CHomeView setActiveTab={setActiveTab} />}
+        {activeTab === "servicios" && <ServiceMarketplaceView />}
+        {activeTab === "ventas" && <ProductMarketplaceView onOpenCart={() => setIsCartOpen(true)} />}
+        {activeTab === "mensajeria" && <SocialCommunityView />}
+        {activeTab === "actividad" && <ActivityView />}
+        {activeTab === "notificaciones" && <NotificationsView />}
+        {activeTab === "perfil" && (
+          <div className="space-y-6 max-w-4xl mx-auto">
+            <UserProfileView setActiveTab={setActiveTab} />
+            <WalletView />
+          </div>
         )}
 
-        <CartCheckoutModal
-          isOpen={isCartOpen}
-          onClose={() => setIsCartOpen(false)}
-          onOrderPlaced={(orderId) => {
-            setActiveTab("actividad");
+        {activeTab === "negocios" && <B2BDashboardView />}
+        {activeTab === "landing" && <HomeliAdsView />}
+        {activeTab === "delivery" && <DriverAppView />}
+        {activeTab === "admin" && <AdminDashboardView />}
+      </main>
+
+      {/* Bottom Navigation */}
+      <BottomNav activeTab={activeTab} setActiveTab={setActiveTab} />
+
+      {/* Global Overlays & Modals */}
+      <OnboardingFlowModal />
+
+      {active3DProduct && (
+        <WebARViewer product={active3DProduct} onClose={() => setActive3DProduct(null)} />
+      )}
+
+      <CartCheckoutModal
+        isOpen={isCartOpen}
+        onClose={() => setIsCartOpen(false)}
+        onOrderPlaced={(orderId) => {
+          setActiveTab("actividad");
+        }}
+      />
+
+      {(activeTrackOrder || activeTrackBooking) && (
+        <LiveActivityTrackerModal
+          order={activeTrackOrder}
+          booking={activeTrackBooking}
+          onClose={() => {
+            setActiveTrackOrder(null);
+            setActiveTrackBooking(null);
           }}
         />
+      )}
 
-        {(activeTrackOrder || activeTrackBooking) && (
-          <LiveActivityTrackerModal
-            order={activeTrackOrder}
-            booking={activeTrackBooking}
-            onClose={() => {
-              setActiveTrackOrder(null);
-              setActiveTrackBooking(null);
-            }}
-          />
-        )}
-
-        <AIAssistantWidget />
-
-      </div>
+      <AIAssistantWidget />
     </div>
   );
 }

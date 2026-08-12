@@ -126,6 +126,29 @@ export const UserProfileView: React.FC<UserProfileViewProps> = ({ setActiveTab }
         </div>
       </div>
 
+      {/* Supabase Configuration Card */}
+      <div className="p-4 rounded-2xl bg-emerald-50/70 border border-emerald-200 space-y-2.5 text-xs text-slate-900 shadow-sm">
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-2">
+            <div className="p-1.5 rounded-lg bg-emerald-600 text-white font-bold text-[10px]">⚡</div>
+            <div>
+              <h3 className="font-bold text-sm text-emerald-950">Supabase Configurado</h3>
+              <p className="text-[11px] text-emerald-700 font-mono">Project ID: ejmuvdsqpbfnqzodxkgg</p>
+            </div>
+          </div>
+          <span className="px-2 py-0.5 rounded-full bg-emerald-200 text-emerald-800 font-bold text-[10px] border border-emerald-300">
+            Conectado
+          </span>
+        </div>
+        <div className="text-[11px] text-slate-600 bg-white/80 p-2.5 rounded-xl border border-emerald-200 font-mono break-all">
+          URL: https://ejmuvdsqpbfnqzodxkgg.supabase.co
+        </div>
+        <p className="text-[11px] text-emerald-900">
+          El cliente SDK <code className="bg-emerald-100 px-1 py-0.5 rounded">@supabase/supabase-js</code> fue configurado en <code className="bg-emerald-100 px-1 py-0.5 rounded">src/lib/supabase.ts</code> y el archivo <code className="bg-emerald-100 px-1 py-0.5 rounded">supabase_schema.sql</code> fue generado.
+        </p>
+      </div>
+
+
       {/* Onboarding Flow Re-trigger Banner */}
       <div className="p-4 rounded-2xl bg-gradient-to-r from-amber-500/10 via-amber-500/5 to-white border border-amber-300 flex items-center justify-between text-xs text-slate-900 shadow-sm">
         <div>

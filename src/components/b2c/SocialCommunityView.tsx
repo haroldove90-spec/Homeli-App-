@@ -24,7 +24,7 @@ export const SocialCommunityView: React.FC = () => {
   };
 
   return (
-    <div className="space-y-4 pb-20 animate-in fade-in duration-200">
+    <div className="space-y-4 pb-20 animate-in fade-in duration-200 max-w-4xl mx-auto">
       
       {/* Title */}
       <div className="flex items-center justify-between">
