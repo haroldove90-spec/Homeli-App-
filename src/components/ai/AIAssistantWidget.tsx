@@ -56,7 +56,7 @@ export const AIAssistantWidget: React.FC = () => {
               <Sparkles className="w-5 h-5 animate-spin" />
             </div>
             <div>
-              <h3 className="font-bold text-sm text-slate-900">Homeli AI Assistant</h3>
+              <h3 className="font-bold text-sm text-slate-900" style={{ fontFamily: "'Times New Roman', Times, serif" }}>Homeli AI Assistant</h3>
               <p className="text-[10px] text-emerald-700 font-semibold">En línea • Inteligencia Artificial</p>
             </div>
           </div>

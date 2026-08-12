@@ -36,7 +36,7 @@ export const WalletView: React.FC = () => {
       {/* Main Balance Card */}
       <div className="p-5 rounded-3xl bg-gradient-to-br from-violet-600 via-purple-700 to-slate-900 border border-violet-400 text-white shadow-xl relative overflow-hidden space-y-4">
         <div className="flex items-center justify-between">
-          <span className="text-xs text-purple-100 font-semibold uppercase tracking-wider">
+          <span className="text-xs text-purple-100 font-semibold uppercase tracking-wider" style={{ fontFamily: "'Times New Roman', Times, serif" }}>
             Billetera Homeli Pay
           </span>
           <CreditCard className="w-5 h-5 text-purple-200" />

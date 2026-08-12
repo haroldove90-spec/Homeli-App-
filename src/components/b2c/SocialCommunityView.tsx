@@ -31,7 +31,7 @@ export const SocialCommunityView: React.FC = () => {
         <div>
           <h2 className="text-xl font-bold text-slate-900 flex items-center gap-2">
             <MessageSquare className="w-5 h-5 text-sky-600" />
-            Comunidad Social Homeli
+            <span style={{ fontFamily: "'Times New Roman', Times, serif" }}>Comunidad Social Homeli</span>
           </h2>
           <p className="text-xs text-slate-500">Publicaciones, dudas locales y recomendaciones entre vecinos</p>
         </div>

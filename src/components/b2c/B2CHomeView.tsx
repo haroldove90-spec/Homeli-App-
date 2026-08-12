@@ -118,17 +118,17 @@ export const B2CHomeView: React.FC<B2CHomeViewProps> = ({ setActiveTab }) => {
             </div>
           </div>
 
-          {/* 3D Mascot Elephant/Boy Character Illustration */}
+          {/* 3D Character & Brand Logo Illustration */}
           <div className="relative w-32 h-32 sm:w-36 sm:h-36 flex-shrink-0 flex items-center justify-center">
-            <div className="w-full h-full rounded-full bg-gradient-to-tr from-violet-600/30 to-indigo-500/30 p-2 flex items-center justify-center relative">
-              <div className="text-6xl animate-pulse">🐘👍</div>
+            <div className="w-full h-full rounded-3xl bg-white/10 backdrop-blur-md p-3 flex items-center justify-center relative border border-white/20 shadow-2xl overflow-hidden">
+              <img
+                src="https://ejmuvdsqpbfnqzodxkgg.supabase.co/storage/v1/object/public/graficos/homelilogo.png"
+                alt="Homeli Brand Logo"
+                className="w-full h-full object-contain drop-shadow-md"
+              />
               {/* Checkmark bubble badge */}
-              <div className="absolute top-1 right-1 p-1.5 rounded-full bg-emerald-500 text-slate-950 shadow-lg font-bold text-xs">
+              <div className="absolute top-1.5 right-1.5 p-1.5 rounded-full bg-emerald-500 text-slate-950 shadow-lg font-bold text-xs">
                 ✓
-              </div>
-              {/* Heart bubble badge */}
-              <div className="absolute bottom-1 left-1 p-1.5 rounded-full bg-rose-500 text-white shadow-lg text-xs">
-                ❤️
               </div>
             </div>
           </div>

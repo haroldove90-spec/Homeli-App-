@@ -37,7 +37,7 @@ export const HomeliAdsView: React.FC = () => {
         <div>
           <h2 className="text-xl font-bold text-slate-900 flex items-center gap-2">
             <Sparkles className="w-5 h-5 text-emerald-600" />
-            Homeli Ads & Landing Page PUB
+            <span style={{ fontFamily: "'Times New Roman', Times, serif" }}>Homeli Ads & Landing Page PUB</span>
           </h2>
           <p className="text-xs text-slate-500">Creación de anuncios patrocinados y métricas de conversión</p>
         </div>

@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import { useHomeli } from "../../context/HomeliContext";
 import { UserRole } from "../../types";
-import { User, ShieldCheck, MapPin, Bell, Fingerprint, Wallet, LogIn, ChevronRight, Check, LogOut, Store, Truck, ShieldAlert } from "lucide-react";
+import { User, ShieldCheck, MapPin, Bell, Fingerprint, Wallet, LogIn, ChevronRight, Check, LogOut, Store, Truck, ShieldAlert, Smartphone } from "lucide-react";
+import { PWAInstallButton } from "../common/PWAInstallButton";
 
 interface UserProfileViewProps {
   setActiveTab?: (tab: string) => void;
@@ -124,6 +125,24 @@ export const UserProfileView: React.FC<UserProfileViewProps> = ({ setActiveTab }
             <span>Cerrar Sesión</span>
           </button>
         </div>
+      </div>
+
+      {/* PWA Installation Card */}
+      <div className="p-4 rounded-2xl bg-gradient-to-r from-violet-50 to-indigo-50 border border-violet-200 flex items-center justify-between gap-3 shadow-sm">
+        <div className="flex items-center gap-3">
+          <img
+            src="https://ejmuvdsqpbfnqzodxkgg.supabase.co/storage/v1/object/public/graficos/homeliicono.png"
+            alt="Homeli App Icon"
+            className="w-10 h-10 rounded-xl object-cover border border-slate-200 shadow-sm"
+          />
+          <div>
+            <h3 className="font-bold text-sm text-slate-900" style={{ fontFamily: "'Times New Roman', Times, serif" }}>
+              Homeli PWA
+            </h3>
+            <p className="text-[11px] text-slate-600">Instala la aplicación en tu inicio sin descargas de tiendas</p>
+          </div>
+        </div>
+        <PWAInstallButton />
       </div>
 
       {/* Supabase Configuration Card */}

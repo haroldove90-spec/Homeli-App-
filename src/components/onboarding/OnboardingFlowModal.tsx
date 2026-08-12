@@ -108,19 +108,24 @@ export const OnboardingFlowModal: React.FC = () => {
           {/* SCREEN 1: SPLASH SCREEN (Image 2 - Screen 1) */}
           {onboardingStep === 1 && (
             <div className="flex flex-col items-center justify-center text-center my-auto space-y-6">
-              <div className="relative w-32 h-32 rounded-3xl bg-amber-500 p-1 shadow-lg">
+              <div className="relative w-36 h-36 rounded-3xl bg-gradient-to-tr from-violet-600 to-indigo-600 p-1 shadow-xl">
                 <div className="w-full h-full bg-white rounded-[22px] flex flex-col items-center justify-center p-3 relative overflow-hidden">
-                  <div className="text-4xl mb-1">🏠🐘</div>
-                  <div className="text-xs font-black tracking-widest text-amber-600">HOMELI</div>
+                  <img
+                    src="https://ejmuvdsqpbfnqzodxkgg.supabase.co/storage/v1/object/public/graficos/homelilogo.png"
+                    alt="Homeli Logo"
+                    className="w-full h-full object-contain"
+                  />
                 </div>
               </div>
 
               <div>
-                <h2 className="text-2xl font-black text-slate-900 tracking-tight">Homeli</h2>
-                <p className="text-xs uppercase tracking-widest text-amber-700 font-bold mt-1">
+                <h2 className="text-3xl font-black text-slate-900 tracking-tight" style={{ fontFamily: "'Times New Roman', Times, serif" }}>
+                  Homeli
+                </h2>
+                <p className="text-xs uppercase tracking-widest text-violet-700 font-bold mt-1">
                   SERVICIOS DE ESTILO DE VIDA
                 </p>
-                <p className="text-sm text-slate-600 mt-4 leading-relaxed">
+                <p className="text-sm text-slate-600 mt-3 leading-relaxed">
                   Tu vida más fácil, en una sola app.
                 </p>
               </div>
@@ -627,7 +632,7 @@ export const OnboardingFlowModal: React.FC = () => {
             <div className="text-center space-y-6 my-auto">
               <div className="text-6xl animate-bounce">🎉</div>
               <div>
-                <h3 className="text-2xl font-black text-slate-900">¡Bienvenido a Homeli!</h3>
+                <h3 className="text-2xl font-black text-slate-900" style={{ fontFamily: "'Times New Roman', Times, serif" }}>¡Bienvenido a Homeli!</h3>
                 <p className="text-xs text-amber-700 font-bold mt-1">
                   Todo listo para disfrutar de una vida más fácil
                 </p>

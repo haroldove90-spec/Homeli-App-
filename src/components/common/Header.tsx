@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useHomeli } from "../../context/HomeliContext";
 import { UserRole } from "../../types";
 import { Bell, ShieldCheck, User, Store, Truck, ShieldAlert, Sparkles, LogOut, ChevronRight, X, LogIn } from "lucide-react";
+import { PWAInstallButton } from "./PWAInstallButton";
 
 interface HeaderProps {
   activeTab: string;
@@ -39,27 +40,32 @@ export const Header: React.FC<HeaderProps> = ({ activeTab, setActiveTab, unreadN
     <>
       <header className="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-slate-200 text-slate-900 shadow-sm">
         {/* Main App Brand Header */}
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 flex items-center justify-between">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-2.5 flex items-center justify-between">
           
           {/* Brand Logo & Name */}
           <div
             onClick={() => setActiveTab("inicio")}
             className="flex items-center gap-2.5 cursor-pointer group"
           >
-            {/* Logo Icon Graphic */}
-            <div className="relative w-10 h-10 rounded-2xl bg-gradient-to-tr from-violet-600 via-indigo-600 to-sky-500 p-0.5 shadow-md shadow-violet-500/10 group-hover:scale-105 transition-transform">
-              <div className="w-full h-full bg-white rounded-[14px] flex items-center justify-center overflow-hidden relative border border-slate-100">
-                <svg className="w-6 h-6 text-violet-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
-                  <polyline points="9 22 9 12 15 12 15 22" />
-                </svg>
-                <div className="absolute top-1 right-1 w-2 h-2 rounded-full bg-amber-400 animate-ping" />
-              </div>
+            {/* Logo Graphic Image */}
+            <div className="relative w-10 h-10 rounded-2xl bg-gradient-to-tr from-violet-600 via-indigo-600 to-sky-500 p-0.5 shadow-md shadow-violet-500/10 group-hover:scale-105 transition-transform overflow-hidden flex items-center justify-center">
+              <img
+                src="https://ejmuvdsqpbfnqzodxkgg.supabase.co/storage/v1/object/public/graficos/homeliicono.png"
+                alt="Homeli Icon"
+                className="w-full h-full object-cover rounded-[14px]"
+                onError={(e) => {
+                  // Fallback if image fails
+                  (e.target as HTMLElement).style.display = 'none';
+                }}
+              />
             </div>
 
             <div>
-              <div className="flex items-center gap-1">
-                <h1 className="font-black text-xl tracking-tight text-slate-900 font-sans">
+              <div className="flex items-center gap-1.5">
+                <h1
+                  className="font-black text-2xl tracking-tight text-slate-900"
+                  style={{ fontFamily: "'Times New Roman', Times, serif" }}
+                >
                   Homeli
                 </h1>
               </div>
@@ -72,6 +78,9 @@ export const Header: React.FC<HeaderProps> = ({ activeTab, setActiveTab, unreadN
           {/* Action Controls */}
           <div className="flex items-center gap-2">
             
+            {/* PWA Discrete Install Button */}
+            <PWAInstallButton />
+
             {/* AI Bot Button */}
             <button
               onClick={() => setIsAIAssistantOpen(true)}
@@ -100,7 +109,7 @@ export const Header: React.FC<HeaderProps> = ({ activeTab, setActiveTab, unreadN
               title="Cerrar sesión o cambiar de rol"
             >
               <LogOut className="w-4 h-4" />
-              <span className="text-[11px]">Salir</span>
+              <span className="text-[11px] hidden sm:inline">Salir</span>
             </button>
 
           </div>
