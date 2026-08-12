@@ -1,15 +1,22 @@
 -- ====================================================================
--- HOMELI SUPER APP - DATABASE SCHEMA FOR SUPABASE (POSTGRESQL)
--- Project: homeli@mexicosignaturetours.com.mx's Project
--- Project ID: ejmuvdsqpbfnqzodxkgg
--- URL: https://ejmuvdsqpbfnqzodxkgg.supabase.co
+-- HOMELI SUPER APP - SCRIPT DE MIGRACIÓN Y LIMPIEZA PARA SUPABASE
+-- Solución al error: column "merchant_id" of relation "products" does not exist
 -- ====================================================================
+
+-- 1. Eliminar o ajustar la tabla de productos anterior si ya existía con otro formato
+DROP TABLE IF EXISTS public.orders CASCADE;
+DROP TABLE IF EXISTS public.service_bookings CASCADE;
+DROP TABLE IF EXISTS public.products CASCADE;
+DROP TABLE IF EXISTS public.services CASCADE;
+DROP TABLE IF EXISTS public.posts CASCADE;
+DROP TABLE IF EXISTS public.ads_campaigns CASCADE;
+DROP TABLE IF EXISTS public.profiles CASCADE;
 
 -- Enable UUID extension
 CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 
--- 1. PROFILES TABLE
-CREATE TABLE IF NOT EXISTS public.profiles (
+-- 1. TABLA DE PERFILES
+CREATE TABLE public.profiles (
   id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
   user_id UUID REFERENCES auth.users(id) ON DELETE CASCADE,
   name TEXT NOT NULL,
@@ -24,11 +31,11 @@ CREATE TABLE IF NOT EXISTS public.profiles (
   updated_at TIMESTAMPTZ DEFAULT NOW()
 );
 
--- 2. PRODUCTS TABLE (Cleaning Products & 3D WebAR)
-CREATE TABLE IF NOT EXISTS public.products (
+-- 2. TABLA DE PRODUCTOS (Marketplace de Limpieza)
+CREATE TABLE public.products (
   id TEXT PRIMARY KEY DEFAULT ('prod-' || substring(md5(random()::text) from 1 for 8)),
-  merchant_id TEXT NOT NULL,
-  merchant_name TEXT NOT NULL,
+  merchant_id TEXT NOT NULL DEFAULT 'm-101',
+  merchant_name TEXT NOT NULL DEFAULT 'EcoClean Insumos',
   merchant_logo TEXT,
   title TEXT NOT NULL,
   description TEXT,
@@ -48,10 +55,10 @@ CREATE TABLE IF NOT EXISTS public.products (
   created_at TIMESTAMPTZ DEFAULT NOW()
 );
 
--- 3. SERVICES TABLE (Plumbing, Cleaning, Maintenance, etc.)
-CREATE TABLE IF NOT EXISTS public.services (
+-- 3. TABLA DE SERVICIOS
+CREATE TABLE public.services (
   id TEXT PRIMARY KEY DEFAULT ('srv-' || substring(md5(random()::text) from 1 for 8)),
-  provider_id TEXT NOT NULL,
+  provider_id TEXT NOT NULL DEFAULT 'p-1',
   name TEXT NOT NULL,
   avatar TEXT,
   category TEXT NOT NULL,
@@ -65,8 +72,8 @@ CREATE TABLE IF NOT EXISTS public.services (
   created_at TIMESTAMPTZ DEFAULT NOW()
 );
 
--- 4. ORDERS TABLE (Multi-merchant cart orders)
-CREATE TABLE IF NOT EXISTS public.orders (
+-- 4. TABLA DE PEDIDOS
+CREATE TABLE public.orders (
   id TEXT PRIMARY KEY DEFAULT ('ord-' || substring(md5(random()::text) from 1 for 8)),
   customer_name TEXT NOT NULL,
   customer_phone TEXT,
@@ -82,8 +89,8 @@ CREATE TABLE IF NOT EXISTS public.orders (
   created_at TIMESTAMPTZ DEFAULT NOW()
 );
 
--- 5. SERVICE BOOKINGS TABLE
-CREATE TABLE IF NOT EXISTS public.service_bookings (
+-- 5. TABLA DE RESERVAS
+CREATE TABLE public.service_bookings (
   id TEXT PRIMARY KEY DEFAULT ('bk-' || substring(md5(random()::text) from 1 for 8)),
   service_id TEXT NOT NULL,
   service_name TEXT NOT NULL,
@@ -97,8 +104,8 @@ CREATE TABLE IF NOT EXISTS public.service_bookings (
   created_at TIMESTAMPTZ DEFAULT NOW()
 );
 
--- 6. COMMUNITY POSTS TABLE
-CREATE TABLE IF NOT EXISTS public.posts (
+-- 6. TABLA DE PUBLICACIONES
+CREATE TABLE public.posts (
   id TEXT PRIMARY KEY DEFAULT ('post-' || substring(md5(random()::text) from 1 for 8)),
   author_name TEXT NOT NULL,
   author_avatar TEXT,
@@ -112,8 +119,8 @@ CREATE TABLE IF NOT EXISTS public.posts (
   created_at TIMESTAMPTZ DEFAULT NOW()
 );
 
--- 7. ADS CAMPAIGNS TABLE (Homeli Ads)
-CREATE TABLE IF NOT EXISTS public.ads_campaigns (
+-- 7. TABLA DE ANUNCIOS
+CREATE TABLE public.ads_campaigns (
   id TEXT PRIMARY KEY DEFAULT ('ad-' || substring(md5(random()::text) from 1 for 8)),
   merchant_name TEXT NOT NULL,
   title TEXT NOT NULL,
@@ -128,7 +135,7 @@ CREATE TABLE IF NOT EXISTS public.ads_campaigns (
   created_at TIMESTAMPTZ DEFAULT NOW()
 );
 
--- 8. ROW LEVEL SECURITY (RLS) POLICIES
+-- 8. SEGURIDAD Y PERMISOS (RLS)
 ALTER TABLE public.profiles ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.products ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.services ENABLE ROW LEVEL SECURITY;
@@ -137,23 +144,19 @@ ALTER TABLE public.service_bookings ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.posts ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.ads_campaigns ENABLE ROW LEVEL SECURITY;
 
--- Allow public read access to products, services, posts, ads
-CREATE POLICY "Public products are viewable by everyone" ON public.products FOR SELECT USING (true);
-CREATE POLICY "Public services are viewable by everyone" ON public.services FOR SELECT USING (true);
-CREATE POLICY "Public posts are viewable by everyone" ON public.posts FOR SELECT USING (true);
-CREATE POLICY "Public ads are viewable by everyone" ON public.ads_campaigns FOR SELECT USING (true);
+CREATE POLICY "Lectura productos" ON public.products FOR SELECT USING (true);
+CREATE POLICY "Lectura servicios" ON public.services FOR SELECT USING (true);
+CREATE POLICY "Lectura posts" ON public.posts FOR SELECT USING (true);
+CREATE POLICY "Lectura anuncios" ON public.ads_campaigns FOR SELECT USING (true);
 
--- Allow full access for development and demo mode
-CREATE POLICY "Allow anon insert products" ON public.products FOR INSERT WITH CHECK (true);
-CREATE POLICY "Allow anon insert orders" ON public.orders FOR INSERT WITH CHECK (true);
-CREATE POLICY "Allow anon select orders" ON public.orders FOR SELECT USING (true);
-CREATE POLICY "Allow anon insert bookings" ON public.service_bookings FOR INSERT WITH CHECK (true);
-CREATE POLICY "Allow anon select bookings" ON public.service_bookings FOR SELECT USING (true);
-CREATE POLICY "Allow anon insert posts" ON public.posts FOR INSERT WITH CHECK (true);
-CREATE POLICY "Allow anon update posts" ON public.posts FOR UPDATE USING (true);
+CREATE POLICY "Insertar productos" ON public.products FOR INSERT WITH CHECK (true);
+CREATE POLICY "Insertar pedidos" ON public.orders FOR INSERT WITH CHECK (true);
+CREATE POLICY "Consultar pedidos" ON public.orders FOR SELECT USING (true);
+CREATE POLICY "Insertar reservas" ON public.service_bookings FOR INSERT WITH CHECK (true);
+CREATE POLICY "Consultar reservas" ON public.service_bookings FOR SELECT USING (true);
 
 -- ====================================================================
--- SEED INITIAL DATA (SAMPLE CLEANING PRODUCTS & SERVICES)
+-- DATOS INICIALES DE PRUEBA
 -- ====================================================================
 
 INSERT INTO public.products (id, merchant_id, merchant_name, title, description, category, price, original_price, rating, reviews_count, stock, image, has_3d_model, dimensions, is_sponsored)
