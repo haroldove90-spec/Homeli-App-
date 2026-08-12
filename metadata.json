@@ -1,0 +1,6 @@
+{
+  "name": "Homeli - Super App & Marketplace",
+  "description": "Super App y Marketplace de Servicios, Productos con WebAR 3D, Delivery en tiempo real, Billetera Digital y Comunidad Social.",
+  "requestFramePermissions": ["camera", "geolocation"],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
