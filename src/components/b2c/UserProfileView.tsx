@@ -131,9 +131,9 @@ export const UserProfileView: React.FC<UserProfileViewProps> = ({ setActiveTab }
       <div className="p-4 rounded-2xl bg-gradient-to-r from-violet-50 to-indigo-50 border border-violet-200 flex items-center justify-between gap-3 shadow-sm">
         <div className="flex items-center gap-3">
           <img
-            src="https://ejmuvdsqpbfnqzodxkgg.supabase.co/storage/v1/object/public/graficos/homeliicono.png"
+            src="/homeli_emblem_clean.png"
             alt="Homeli App Icon"
-            className="w-10 h-10 rounded-xl object-cover border border-slate-200 shadow-sm"
+            className="w-10 h-10 object-contain"
           />
           <div>
             <h3 className="font-bold text-sm text-slate-900" style={{ fontFamily: "'Times New Roman', Times, serif" }}>

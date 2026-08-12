@@ -85,9 +85,9 @@ export const PWAInstallButton: React.FC<PWAInstallButtonProps> = ({ variant = "h
             {/* Header */}
             <div className="flex items-center gap-3 pr-6">
               <img
-                src="https://ejmuvdsqpbfnqzodxkgg.supabase.co/storage/v1/object/public/graficos/homeliicono.png"
+                src="/homeli_emblem_clean.png"
                 alt="Homeli Icon"
-                className="w-12 h-12 rounded-2xl shadow-md border border-slate-100 object-cover"
+                className="w-12 h-12 object-contain"
               />
               <div>
                 <h3 className="font-bold text-base text-slate-900" style={{ fontFamily: "'Times New Roman', Times, serif" }}>

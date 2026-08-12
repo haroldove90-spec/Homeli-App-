@@ -47,18 +47,15 @@ export const Header: React.FC<HeaderProps> = ({ activeTab, setActiveTab, unreadN
             onClick={() => setActiveTab("inicio")}
             className="flex items-center gap-2.5 cursor-pointer group"
           >
-            {/* Logo Graphic Image */}
-            <div className="relative w-10 h-10 rounded-2xl bg-gradient-to-tr from-violet-600 via-indigo-600 to-sky-500 p-0.5 shadow-md shadow-violet-500/10 group-hover:scale-105 transition-transform overflow-hidden flex items-center justify-center">
-              <img
-                src="https://ejmuvdsqpbfnqzodxkgg.supabase.co/storage/v1/object/public/graficos/homeliicono.png"
-                alt="Homeli Icon"
-                className="w-full h-full object-cover rounded-[14px]"
-                onError={(e) => {
-                  // Fallback if image fails
-                  (e.target as HTMLElement).style.display = 'none';
-                }}
-              />
-            </div>
+            {/* Clean Logo Image (Without capsule / blue border) */}
+            <img
+              src="/homeli_emblem_clean.png"
+              alt="Homeli Logo"
+              className="h-10 sm:h-11 w-auto object-contain transition-transform group-hover:scale-105"
+              onError={(e) => {
+                (e.target as HTMLImageElement).src = "https://ejmuvdsqpbfnqzodxkgg.supabase.co/storage/v1/object/public/graficos/homelilogo.png";
+              }}
+            />
 
             <div>
               <div className="flex items-center gap-1.5">
