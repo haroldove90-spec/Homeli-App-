@@ -107,7 +107,27 @@ export interface MultiMerchantCart {
   [merchantId: string]: CartMerchantGroup;
 }
 
-export type OrderStatus = "Nuevo" | "En preparación" | "Listo para recolección" | "En camino" | "Entregado" | "Cancelado";
+// -------------------------------------------------------------
+// MERCADO LIBRE STYLE MARKETPLACE WORKFLOW TYPES
+// -------------------------------------------------------------
+
+export type OrderStatus =
+  | "Nuevo"
+  | "En preparación"
+  | "Listo para recolección"
+  | "En camino"
+  | "Entregado"
+  | "Cancelado"
+  | "En disputa";
+
+export type EscrowStatus = "in_escrow" | "released" | "refunded" | "disputed";
+
+export interface TrackingMilestone {
+  time: string;
+  title: string;
+  location: string;
+  done: boolean;
+}
 
 export interface Order {
   id: string;
@@ -117,7 +137,7 @@ export interface Order {
   deliveryAddress: string;
   merchantId: string;
   merchantName: string;
-  items: { title: string; price: number; quantity: number; image: string }[];
+  items: { title: string; price: number; quantity: number; image: string; productId?: string }[];
   totalAmount: number;
   deliveryFee: number;
   status: OrderStatus;
@@ -131,7 +151,87 @@ export interface Order {
   taxId?: string;
   qrCodeToken: string;
   proofSignature?: string;
+  // Mercado Libre workflow extensions
+  trackingNumber: string;
+  escrowStatus: EscrowStatus;
+  escrowAmount: number;
+  trackingMilestones: TrackingMilestone[];
+  isReviewSubmitted?: boolean;
+  claimId?: string;
+  deliveredAt?: string;
 }
+
+export type VendorReputationLevel = "platinum" | "gold" | "silver" | "rookie";
+
+export interface VendorReputation {
+  merchantId: string;
+  merchantName: string;
+  level: VendorReputationLevel;
+  levelLabel: string; // e.g. "MercadoLíder Platinum 🏅"
+  onTimeDispatchPercent: number; // e.g. 98%
+  complaintRatePercent: number; // e.g. 0.4%
+  cancellationRatePercent: number; // e.g. 0.8%
+  completedSales60Days: number; // e.g. 340 ventas
+  rating: number; // e.g. 4.9
+  escrowBalance: number; // Dinero en custodia por pedidos en tránsito
+  availableBalance: number; // Dinero disponible para retiro inmediato
+}
+
+export interface ProductReview {
+  id: string;
+  productId: string;
+  orderId: string;
+  userName: string;
+  userAvatar?: string;
+  rating: number; // 1 to 5
+  comment: string;
+  isVerifiedPurchase: boolean;
+  createdAt: string;
+  photoUrl?: string;
+}
+
+export interface OrderMessage {
+  id: string;
+  orderId: string;
+  senderId: string;
+  senderName: string;
+  senderRole: UserRole;
+  text: string;
+  timestamp: string;
+  imageUrl?: string;
+}
+
+export interface MerchantPayout {
+  id: string;
+  merchantId: string;
+  merchantName: string;
+  amount: number;
+  bankName: string;
+  clabeNumber: string;
+  status: "Pendiente" | "Procesado" | "Rechazado";
+  requestedAt: string;
+  referenceNumber: string;
+}
+
+export interface DisputeCase {
+  id: string;
+  orderOrBookingId: string;
+  customerId: string;
+  customerName: string;
+  merchantId: string;
+  merchantName: string;
+  reason: "Producto dañado o roto" | "No coincide con modelo 3D/descripción" | "Paquete no recibido" | "Faltan piezas o accesorios" | string;
+  description: string;
+  amount: number;
+  evidencePhotoUrl?: string;
+  status: "Abierto" | "En Mediación" | "Resuelto con Reembolso" | "Cerrado a Favor de Vendedor";
+  createdAt: string;
+  resolutionNote?: string;
+}
+
+// -------------------------------------------------------------
+// COMMUNITY, WALLET & SETTINGS
+// -------------------------------------------------------------
 
 export interface Post {
   id: string;
@@ -151,7 +251,7 @@ export interface Post {
 
 export interface WalletTransaction {
   id: string;
-  type: "topup" | "payment" | "transfer" | "reward" | "cashout";
+  type: "topup" | "payment" | "transfer" | "reward" | "cashout" | "refund" | "escrow_release";
   title: string;
   amount: number;
   date: string;
@@ -182,17 +282,6 @@ export interface KycDocument {
   status: "Pendiente" | "Aprobado" | "Rechazado";
   documentFrontUrl: string;
   documentBackUrl?: string;
-}
-
-export interface DisputeCase {
-  id: string;
-  orderOrBookingId: string;
-  customerName: string;
-  merchantName: string;
-  reason: string;
-  amount: number;
-  status: "Abierto" | "En Mediación" | "Resuelto con Reembolso" | "Cerrado";
-  createdAt: string;
 }
 
 export interface SystemSettings {

@@ -1,4 +1,23 @@
-import { Product3D, ServiceProvider, Post, Order, ServiceBooking, WalletTransaction, AdsCampaign, KycDocument, DisputeCase, SystemSettings } from "../types";
+
+
+
+
+import {
+  Product3D,
+  ServiceProvider,
+  Post,
+  Order,
+  ServiceBooking,
+  WalletTransaction,
+  AdsCampaign,
+  KycDocument,
+  DisputeCase,
+  SystemSettings,
+  ProductReview,
+  VendorReputation,
+  OrderMessage,
+  MerchantPayout
+} from "../types";
 
 export const INITIAL_PRODUCTS: Product3D[] = [
   {
@@ -254,6 +273,7 @@ export const INITIAL_ORDERS: Order[] = [
     merchantName: "EcoClean Insumos",
     items: [
       {
+        productId: "prod-1",
         title: "Kit Limpiador Multiusos Biodegradable 3D",
         price: 289,
         quantity: 2,
@@ -271,7 +291,56 @@ export const INITIAL_ORDERS: Order[] = [
     createdAt: "2026-08-12 09:15 AM",
     invoiceType: "Factura",
     taxId: "VARM851208XX1",
-    qrCodeToken: "HOMELI-QR-9421-TOKEN"
+    qrCodeToken: "HOMELI-QR-9421-TOKEN",
+    trackingNumber: "HML-TRK-9421MX",
+    escrowStatus: "in_escrow",
+    escrowAmount: 578,
+    isReviewSubmitted: false,
+    trackingMilestones: [
+      { time: "09:15 AM", title: "Pago Acreditado & Protegido en Escrow", location: "Plataforma Homeli", done: true },
+      { time: "09:40 AM", title: "Empacado y listo para despacho", location: "Bodega EcoClean Puebla", done: true },
+      { time: "10:15 AM", title: "Recolectado por Repartidor Partner", location: "EcoClean Insumos", done: true },
+      { time: "10:30 AM", title: "En camino a tu domicilio (Seguimiento GPS)", location: "Ruta Angelópolis", done: true },
+      { time: "Estimado 11:15 AM", title: "Entrega con PIN o Firma de Conformidad", location: "Calle de los Azahares 402", done: false }
+    ]
+  },
+  {
+    id: "ORD-8810",
+    customerId: "usr-01",
+    customerName: "Mano Varadhan",
+    customerPhone: "+52 222 628 5414",
+    deliveryAddress: "Calle de los Azahares 402, Lomas de Angelópolis, Puebla",
+    merchantId: "m-102",
+    merchantName: "Detergentes Pro MX",
+    items: [
+      {
+        productId: "prod-2",
+        title: "Detergente Líquido Concentrado Hipoalergénico 5L 3D",
+        price: 349,
+        quantity: 1,
+        image: "https://images.unsplash.com/photo-1583947215259-38e31be8751f?w=800&fit=crop"
+      }
+    ],
+    totalAmount: 394,
+    deliveryFee: 45,
+    status: "Entregado",
+    driverId: "drv-55",
+    driverName: "Mateo Hernández",
+    driverPhone: "+52 222 888 4321",
+    createdAt: "2026-08-10 14:20 PM",
+    deliveredAt: "2026-08-10 16:05 PM",
+    invoiceType: "Boleta",
+    qrCodeToken: "HOMELI-QR-8810-TOKEN",
+    trackingNumber: "HML-TRK-8810MX",
+    escrowStatus: "released",
+    escrowAmount: 349,
+    isReviewSubmitted: true,
+    trackingMilestones: [
+      { time: "14:20 PM", title: "Pago Acreditado & Protegido", location: "Plataforma Homeli", done: true },
+      { time: "14:45 PM", title: "Preparado en almacén", location: "Centro Detergentes Pro", done: true },
+      { time: "15:20 PM", title: "Despachado con Repartidor", location: "Puebla Norte", done: true },
+      { time: "16:05 PM", title: "Entregado a cliente (Recepción confirmada)", location: "Domicilio", done: true }
+    ]
   }
 ];
 
@@ -355,10 +424,14 @@ export const INITIAL_DISPUTES: DisputeCase[] = [
   {
     id: "DSP-102",
     orderOrBookingId: "ORD-8810",
+    customerId: "usr-02",
+    merchantId: "m-102",
     customerName: "Lucía Fernández",
-    merchantName: "Herramientas El Galpón",
-    reason: "Artículo llegó con caja dañada en el transporte",
-    amount: 850,
+    merchantName: "Detergentes Pro MX",
+    reason: "Producto dañado o roto",
+    description: "El envase llegó abollado con derrame parcial durante el traslado.",
+    amount: 349,
+    evidencePhotoUrl: "https://images.unsplash.com/photo-1583947215259-38e31be8751f?w=400&fit=crop",
     status: "En Mediación",
     createdAt: "09 Ago 2026"
   }
@@ -371,3 +444,140 @@ export const INITIAL_SYSTEM_SETTINGS: SystemSettings = {
   deliveryFeePerKm: 12.0,
   adsCpcRate: 3.5
 };
+
+export const INITIAL_REVIEWS: ProductReview[] = [
+  {
+    id: "rev-1",
+    productId: "prod-1",
+    orderId: "ORD-8810",
+    userName: "Valeria R. (Compradora Verificada)",
+    userAvatar: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=100&fit=crop",
+    rating: 5,
+    comment: "¡Excelente desinfectante! El atomizador tiene un acabado ergonómico premium. Además la visualización en 3D en la mesa de mi cocina antes de comprar me ayudó a comprobar el tamaño exacto.",
+    isVerifiedPurchase: true,
+    createdAt: "Ayer",
+    photoUrl: "https://images.unsplash.com/photo-1585751119414-ef2636f8aede?w=400&fit=crop"
+  },
+  {
+    id: "rev-2",
+    productId: "prod-1",
+    orderId: "ORD-7740",
+    userName: "Eduardo Lozano",
+    userAvatar: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=100&fit=crop",
+    rating: 5,
+    comment: "Llegó en menos de 45 minutos con entrega protegida. Aroma cítrico muy fresco que dura horas sin químicos irritantes.",
+    isVerifiedPurchase: true,
+    createdAt: "Hace 3 días"
+  },
+  {
+    id: "rev-3",
+    productId: "prod-2",
+    orderId: "ORD-8810",
+    userName: "Mano Varadhan",
+    userAvatar: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&fit=crop",
+    rating: 5,
+    comment: "Muy rendidor y no mancha la ropa de color. Envío super puntual y la garantía de devolución da mucha tranquilidad.",
+    isVerifiedPurchase: true,
+    createdAt: "Hace 2 días"
+  }
+];
+
+export const INITIAL_VENDOR_REPUTATIONS: Record<string, VendorReputation> = {
+  "m-101": {
+    merchantId: "m-101",
+    merchantName: "EcoClean Insumos",
+    level: "platinum",
+    levelLabel: "MercadoLíder Platinum 🏅",
+    onTimeDispatchPercent: 98.6,
+    complaintRatePercent: 0.3,
+    cancellationRatePercent: 0.2,
+    completedSales60Days: 480,
+    rating: 4.95,
+    escrowBalance: 1250.00, // En custodia temporal
+    availableBalance: 8450.00 // Listo para retiro bancario
+  },
+  "m-102": {
+    merchantId: "m-102",
+    merchantName: "Detergentes Pro MX",
+    level: "gold",
+    levelLabel: "MercadoLíder Gold 🥇",
+    onTimeDispatchPercent: 96.2,
+    complaintRatePercent: 0.8,
+    cancellationRatePercent: 0.5,
+    completedSales60Days: 290,
+    rating: 4.88,
+    escrowBalance: 780.00,
+    availableBalance: 4620.00
+  },
+  "m-103": {
+    merchantId: "m-103",
+    merchantName: "Limpieza Total Directo",
+    level: "platinum",
+    levelLabel: "MercadoLíder Platinum 🏅",
+    onTimeDispatchPercent: 99.1,
+    complaintRatePercent: 0.2,
+    cancellationRatePercent: 0.1,
+    completedSales60Days: 520,
+    rating: 4.97,
+    escrowBalance: 980.00,
+    availableBalance: 12300.00
+  },
+  "m-104": {
+    merchantId: "m-104",
+    merchantName: "Higienix Soluciones",
+    level: "silver",
+    levelLabel: "Vendedor Destacado Silver 🥈",
+    onTimeDispatchPercent: 94.0,
+    complaintRatePercent: 1.2,
+    cancellationRatePercent: 1.0,
+    completedSales60Days: 140,
+    rating: 4.75,
+    escrowBalance: 420.00,
+    availableBalance: 2100.00
+  }
+};
+
+export const INITIAL_ORDER_MESSAGES: OrderMessage[] = [
+  {
+    id: "msg-1",
+    orderId: "ORD-9421",
+    senderId: "m-101",
+    senderName: "EcoClean Insumos (Vendedor)",
+    senderRole: "B2B",
+    text: "¡Hola Mano! Tu pedido de atomizadores desinfectantes ya fue empacado con sello de seguridad biodegradable y va en camino con el repartidor.",
+    timestamp: "09:42 AM"
+  },
+  {
+    id: "msg-2",
+    orderId: "ORD-9421",
+    senderId: "usr-01",
+    senderName: "Mano Varadhan (Comprador)",
+    senderRole: "B2C",
+    text: "¡Excelente! Por favor indícale al repartidor que toque el timbre del Depto 402.",
+    timestamp: "09:48 AM"
+  },
+  {
+    id: "msg-3",
+    orderId: "ORD-9421",
+    senderId: "m-101",
+    senderName: "EcoClean Insumos (Vendedor)",
+    senderRole: "B2B",
+    text: "Anotado en la guía de entrega. Cualquier duda o detalle cuentas con Compra Protegida Homeli.",
+    timestamp: "09:50 AM"
+  }
+];
+
+export const INITIAL_MERCHANT_PAYOUTS: MerchantPayout[] = [
+  {
+    id: "pay-101",
+    merchantId: "m-101",
+    merchantName: "EcoClean Insumos",
+    amount: 5000.00,
+    bankName: "BBVA Bancomer",
+    clabeNumber: "012680015489201934",
+    status: "Procesado",
+    requestedAt: "08 Ago 2026",
+    referenceNumber: "SPEI-HML-884920"
+  }
+];
+
