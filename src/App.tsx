@@ -1,107 +1,44 @@
-import React, { useState } from "react";
-import { HomeliProvider, useHomeli } from "./context/HomeliContext";
-import { Header } from "./components/common/Header";
-import { BottomNav } from "./components/common/BottomNav";
-import { WebARViewer } from "./components/common/WebARViewer";
-import { OnboardingFlowModal } from "./components/onboarding/OnboardingFlowModal";
-
-import { B2CHomeView } from "./components/b2c/B2CHomeView";
-import { ProductMarketplaceView } from "./components/b2c/ProductMarketplaceView";
-import { ServiceMarketplaceView } from "./components/b2c/ServiceMarketplaceView";
-import { SocialCommunityView } from "./components/b2c/SocialCommunityView";
-import { WalletView } from "./components/b2c/WalletView";
-import { ActivityView } from "./components/b2c/ActivityView";
-import { NotificationsView } from "./components/b2c/NotificationsView";
-import { UserProfileView } from "./components/b2c/UserProfileView";
-import { CartCheckoutModal } from "./components/b2c/CartCheckoutModal";
-import { LiveActivityTrackerModal } from "./components/b2c/LiveActivityTrackerModal";
-
-import { B2BDashboardView } from "./components/b2b/B2BDashboardView";
-import { HomeliAdsView } from "./components/b2b/HomeliAdsView";
-
-import { DriverAppView } from "./components/driver/DriverAppView";
-import { AdminDashboardView } from "./components/admin/AdminDashboardView";
-
-import { AIAssistantWidget } from "./components/ai/AIAssistantWidget";
-
-function AppContent() {
-  const {
-    currentRole,
-    active3DProduct,
-    setActive3DProduct,
-    activeTrackBooking,
-    setActiveTrackBooking,
-    activeTrackOrder,
-    setActiveTrackOrder
-  } = useHomeli();
-
-  const [activeTab, setActiveTab] = useState<string>("inicio");
-  const [isCartOpen, setIsCartOpen] = useState(false);
-
-  return (
-    <div className="min-h-screen bg-slate-50 text-slate-900 font-sans selection:bg-violet-500 selection:text-white flex flex-col relative">
-      {/* Header Bar */}
-      <Header activeTab={activeTab} setActiveTab={setActiveTab} />
-
-      {/* Dynamic Body Content */}
-      <main className="flex-1 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 pb-28">
-        {activeTab === "inicio" && <B2CHomeView setActiveTab={setActiveTab} />}
-        {activeTab === "servicios" && <ServiceMarketplaceView />}
-        {activeTab === "ventas" && <ProductMarketplaceView onOpenCart={() => setIsCartOpen(true)} />}
-        {activeTab === "mensajeria" && <SocialCommunityView />}
-        {activeTab === "actividad" && <ActivityView />}
-        {activeTab === "notificaciones" && <NotificationsView />}
-        {activeTab === "perfil" && (
-          <div className="space-y-6 max-w-4xl mx-auto">
-            <UserProfileView setActiveTab={setActiveTab} />
-            <WalletView />
-          </div>
-        )}
-
-        {activeTab === "negocios" && <B2BDashboardView />}
-        {activeTab === "landing" && <HomeliAdsView />}
-        {activeTab === "delivery" && <DriverAppView />}
-        {activeTab === "admin" && <AdminDashboardView />}
-      </main>
-
-      {/* Bottom Navigation */}
-      <BottomNav activeTab={activeTab} setActiveTab={setActiveTab} />
-
-      {/* Global Overlays & Modals */}
-      <OnboardingFlowModal />
-
-      {active3DProduct && (
-        <WebARViewer product={active3DProduct} onClose={() => setActive3DProduct(null)} />
-      )}
-
-      <CartCheckoutModal
-        isOpen={isCartOpen}
-        onClose={() => setIsCartOpen(false)}
-        onOrderPlaced={(orderId) => {
-          setActiveTab("actividad");
-        }}
-      />
-
-      {(activeTrackOrder || activeTrackBooking) && (
-        <LiveActivityTrackerModal
-          order={activeTrackOrder}
-          booking={activeTrackBooking}
-          onClose={() => {
-            setActiveTrackOrder(null);
-            setActiveTrackBooking(null);
-          }}
-        />
-      )}
-
-      <AIAssistantWidget />
-    </div>
-  );
-}
+import React, { useState, useCallback } from 'react';
+import { WifiOff } from 'lucide-react';
+import { SplashScreen } from './components/home/SplashScreen';
+import { HomeliLauncherHome } from './components/home/HomeliLauncherHome';
+import { KicksXRAppView } from './components/home/KicksXRAppView';
+import { useOnlineStatus } from './hooks/usePWAInstall';
 
 export default function App() {
+  const [showSplash, setShowSplash] = useState(true);
+  const [isKicksXROpen, setIsKicksXROpen] = useState(false);
+  const isOnline = useOnlineStatus();
+
+  const handleSplashComplete = useCallback(() => {
+    setShowSplash(false);
+  }, []);
+
   return (
-    <HomeliProvider>
-      <AppContent />
-    </HomeliProvider>
+    <div className="min-h-[100dvh] bg-[#000E2B] text-white relative">
+      {/* 4.5s Splash Screen */}
+      {showSplash && (
+        <SplashScreen durationMs={4500} onComplete={handleSplashComplete} />
+      )}
+
+      {/* Main Homeli Home (#000E2B) */}
+      <HomeliLauncherHome onOpenKicksXR={() => setIsKicksXROpen(true)} />
+
+      {/* Fullscreen Embedded Kicks XR App View */}
+      {isKicksXROpen && (
+        <KicksXRAppView onBack={() => setIsKicksXROpen(false)} />
+      )}
+
+      {/* Offline Connectivity Indicator */}
+      {!isOnline && (
+        <div
+          role="status"
+          className="fixed bottom-4 left-1/2 -translate-x-1/2 z-[90] flex items-center gap-2 rounded-xl bg-amber-500 px-4 py-2 text-xs font-semibold text-slate-950 shadow-lg whitespace-nowrap"
+        >
+          <WifiOff className="w-3.5 h-3.5 shrink-0" />
+          <span>Sin conexión — Modo offline activo</span>
+        </div>
+      )}
+    </div>
   );
 }

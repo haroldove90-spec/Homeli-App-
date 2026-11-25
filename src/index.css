@@ -1,1 +1,33 @@
 @import "tailwindcss";
+
+@layer base {
+  html,
+  body,
+  #root {
+    min-height: 100dvh;
+    background-color: #000E2B;
+    font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+    -webkit-tap-highlight-color: transparent;
+  }
+}
+
+@keyframes homeliSplashProgress {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+
+.animate-splash-progress {
+  transform-origin: left center;
+  animation: homeliSplashProgress 4.5s linear forwards;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-splash-progress {
+    animation: none;
+    transform: scaleX(1);
+  }
+}
