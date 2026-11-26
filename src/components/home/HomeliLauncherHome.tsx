@@ -1,13 +1,12 @@
 import React, { useState } from 'react';
-import { Smartphone, Download, X, Share, PlusSquare, MoreVertical, Clock } from 'lucide-react';
+import { Smartphone, Download, X, Share, PlusSquare, MoreVertical } from 'lucide-react';
 import { usePWAInstall } from '../../hooks/usePWAInstall';
 
 interface HomeliLauncherHomeProps {
-  onOpenKicksXR: () => void;
+  onOpenServices: () => void;
 }
 
 const HOMELI_LOGO_URL = 'https://daloocomercializadora.com.mx/homelilogo.png';
-const KICKS_XR_LOGO_URL = 'https://daloocomercializadora.com.mx/kicksxrlogo.png';
 
 /** Custom Services icon designed for Homeli's deep-navy & warm-gold palette */
 const ServiciosCustomIcon: React.FC = () => (
@@ -15,7 +14,7 @@ const ServiciosCustomIcon: React.FC = () => (
     viewBox="0 0 64 64"
     fill="none"
     xmlns="http://www.w3.org/2000/svg"
-    className="w-12 h-12 sm:w-14 sm:h-14"
+    className="w-14 h-14 sm:w-16 sm:h-16"
     aria-hidden="true"
   >
     {/* Roof outline */}
@@ -47,12 +46,10 @@ const ServiciosCustomIcon: React.FC = () => (
   </svg>
 );
 
-export const HomeliLauncherHome: React.FC<HomeliLauncherHomeProps> = ({ onOpenKicksXR }) => {
+export const HomeliLauncherHome: React.FC<HomeliLauncherHomeProps> = ({ onOpenServices }) => {
   const { isInstallable, isInstalled, isIOS, isAndroid, install } = usePWAInstall();
-  const [showComingSoon, setShowComingSoon] = useState(false);
   const [showMobileInstallGuide, setShowMobileInstallGuide] = useState(false);
   const [logoError, setLogoError] = useState(false);
-  const [kicksLogoError, setKicksLogoError] = useState(false);
 
   const handleInstallPress = async () => {
     if (isInstallable) {
@@ -95,55 +92,23 @@ export const HomeliLauncherHome: React.FC<HomeliLauncherHomeProps> = ({ onOpenKi
           en una sola app
         </h1>
 
-        {/* Services Section */}
-        <section className="w-full flex flex-col items-center gap-5">
-          <h2 className="text-base sm:text-lg font-medium tracking-wide text-white/90">
-            Servicios:
-          </h2>
-
-          {/* Two Encapsulated Access Tiles */}
-          <div className="grid grid-cols-2 gap-6 sm:gap-8 w-full max-w-[310px] sm:max-w-[340px]">
-            {/* Tile 1: Servicios (Próximamente) */}
-            <button
-              type="button"
-              onClick={() => setShowComingSoon(true)}
-              className="aspect-square rounded-2xl border border-white/85 bg-[#00143B]/70 hover:bg-[#001C52]/85 active:scale-[0.97] transition-all duration-150 flex flex-col items-center justify-center gap-2.5 p-3.5 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#F2B84B]"
-              aria-label="Servicios — Próximamente"
-            >
-              <ServiciosCustomIcon />
-              <span className="text-xs sm:text-sm font-medium tracking-wide text-white/95 whitespace-nowrap">
-                Servicios
-              </span>
-            </button>
-
-            {/* Tile 2: Kicks XR (Encapsulated Logo -> Fullscreen App) */}
-            <button
-              type="button"
-              onClick={onOpenKicksXR}
-              className="aspect-square rounded-2xl border border-white/85 bg-[#00143B]/70 hover:bg-[#001C52]/85 active:scale-[0.97] transition-all duration-150 flex items-center justify-center p-3 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#F2B84B]"
-              aria-label="Abrir Kicks XR"
-            >
-              <div className="w-full bg-white rounded-lg px-2 py-2 flex items-center justify-center shadow-sm">
-                {!kicksLogoError ? (
-                  <img
-                    src={KICKS_XR_LOGO_URL}
-                    alt="Kicks XR"
-                    referrerPolicy="no-referrer"
-                    onError={() => setKicksLogoError(true)}
-                    className="w-full h-auto max-h-12 object-contain"
-                  />
-                ) : (
-                  <span className="text-sm font-bold text-[#000E2B] tracking-tight">
-                    Kicks XR
-                  </span>
-                )}
-              </div>
-            </button>
-          </div>
+        {/* Single Centered Access Tile: Servicios (without the extra "Servicios:" heading above) */}
+        <section className="w-full flex flex-col items-center gap-6 pt-1">
+          <button
+            type="button"
+            onClick={onOpenServices}
+            className="w-36 h-36 sm:w-40 sm:h-40 rounded-2xl border border-white/85 bg-[#00143B]/75 hover:bg-[#001C52]/90 active:scale-[0.97] transition-all duration-150 flex flex-col items-center justify-center gap-3 p-4 shadow-xl shadow-black/30 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#F2B84B]"
+            aria-label="Abrir sección de Servicios"
+          >
+            <ServiciosCustomIcon />
+            <span className="text-sm font-medium tracking-wide text-white/95 whitespace-nowrap">
+              Servicios
+            </span>
+          </button>
 
           {/* Mobile App Install Button (Hidden automatically once installed as standalone app) */}
           {!isInstalled && (
-            <div className="w-full max-w-[310px] sm:max-w-[340px] pt-2">
+            <div className="w-full max-w-[300px] sm:max-w-[320px] pt-1">
               <button
                 type="button"
                 onClick={handleInstallPress}
@@ -161,7 +126,7 @@ export const HomeliLauncherHome: React.FC<HomeliLauncherHomeProps> = ({ onOpenKi
         </section>
       </main>
 
-      {/* Bottom Indicator Bar matching screenshot */}
+      {/* Bottom Indicator Bar */}
       <footer className="pt-8 pb-2 flex items-center justify-center">
         <div
           className="w-36 h-1.5 rounded-full bg-[#4A6185] overflow-hidden"
@@ -170,43 +135,6 @@ export const HomeliLauncherHome: React.FC<HomeliLauncherHomeProps> = ({ onOpenKi
           <div className="w-1/2 h-full bg-white rounded-full" />
         </div>
       </footer>
-
-      {/* Modal: Servicios -> Próximamente */}
-      {showComingSoon && (
-        <div
-          className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm p-5"
-          onClick={() => setShowComingSoon(false)}
-          role="dialog"
-          aria-modal="true"
-          aria-labelledby="coming-soon-title"
-        >
-          <div
-            className="w-full max-w-xs rounded-3xl bg-[#041842] border border-white/20 p-6 text-center shadow-2xl space-y-5"
-            onClick={(e) => e.stopPropagation()}
-          >
-            <div className="w-14 h-14 mx-auto rounded-2xl bg-[#F2B84B]/15 border border-[#F2B84B]/40 flex items-center justify-center text-[#F2B84B]">
-              <Clock className="w-7 h-7" />
-            </div>
-
-            <div className="space-y-1.5">
-              <h3 id="coming-soon-title" className="text-xl font-semibold text-white">
-                Próximamente
-              </h3>
-              <p className="text-sm text-slate-300 leading-relaxed">
-                Muy pronto podrás disfrutar de todos los servicios de Homeli desde aquí.
-              </p>
-            </div>
-
-            <button
-              type="button"
-              onClick={() => setShowComingSoon(false)}
-              className="w-full min-h-[44px] py-2.5 px-4 rounded-xl bg-white text-[#000E2B] hover:bg-slate-100 active:scale-[0.98] transition-all font-semibold text-sm"
-            >
-              Entendido
-            </button>
-          </div>
-        </div>
-      )}
 
       {/* Modal: Mobile Installation Guide (iOS Safari / Android Chrome fallback when native prompt is unavailable) */}
       {showMobileInstallGuide && (
@@ -247,7 +175,6 @@ export const HomeliLauncherHome: React.FC<HomeliLauncherHomeProps> = ({ onOpenKi
             </div>
 
             <div className="space-y-3 text-sm">
-              {/* Show iOS instructions first if on iOS, or show both mobile OS guides */}
               {(!isAndroid || isIOS) && (
                 <div className="p-4 rounded-2xl bg-[#000E2B]/80 border border-white/15 space-y-2">
                   <div className="flex items-center gap-2 font-semibold text-white text-xs">

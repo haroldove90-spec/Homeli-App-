@@ -2,12 +2,15 @@ import React, { useState, useCallback } from 'react';
 import { WifiOff } from 'lucide-react';
 import { SplashScreen } from './components/home/SplashScreen';
 import { HomeliLauncherHome } from './components/home/HomeliLauncherHome';
+import { ServicesHubView } from './components/home/ServicesHubView';
 import { KicksXRAppView } from './components/home/KicksXRAppView';
 import { useOnlineStatus } from './hooks/usePWAInstall';
 
+type AppScreen = 'home' | 'services' | 'kicks-xr';
+
 export default function App() {
   const [showSplash, setShowSplash] = useState(true);
-  const [isKicksXROpen, setIsKicksXROpen] = useState(false);
+  const [activeScreen, setActiveScreen] = useState<AppScreen>('home');
   const isOnline = useOnlineStatus();
 
   const handleSplashComplete = useCallback(() => {
@@ -21,12 +24,22 @@ export default function App() {
         <SplashScreen durationMs={4500} onComplete={handleSplashComplete} />
       )}
 
-      {/* Main Homeli Home (#000E2B) */}
-      <HomeliLauncherHome onOpenKicksXR={() => setIsKicksXROpen(true)} />
+      {/* Screen 1: Main Homeli Home (#000E2B) */}
+      {activeScreen === 'home' && (
+        <HomeliLauncherHome onOpenServices={() => setActiveScreen('services')} />
+      )}
 
-      {/* Fullscreen Embedded Kicks XR App View */}
-      {isKicksXROpen && (
-        <KicksXRAppView onBack={() => setIsKicksXROpen(false)} />
+      {/* Screen 2: Services Hub (Kicks XR, Bomba de agua, Gas a domicilio) */}
+      {activeScreen === 'services' && (
+        <ServicesHubView
+          onBack={() => setActiveScreen('home')}
+          onOpenKicksXR={() => setActiveScreen('kicks-xr')}
+        />
+      )}
+
+      {/* Screen 3: Fullscreen Embedded Kicks XR App View */}
+      {activeScreen === 'kicks-xr' && (
+        <KicksXRAppView onBack={() => setActiveScreen('services')} />
       )}
 
       {/* Offline Connectivity Indicator */}
